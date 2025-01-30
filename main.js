@@ -1,19 +1,45 @@
+// Получаем элементы DOM один раз для эффективности
+const quoteButton = document.querySelector('button');
+const animeElement = document.querySelector('h3');
+const characterElement = document.querySelector('h4');
+const quoteElement = document.querySelector('h2');
 
-document.querySelector('button').addEventListener('click', Quote)
+// Функция для загрузки цитаты асинхронно
+async function fetchQuote() {
+  // Обновляем текст перед запросом
+  animeElement.innerText = 'Загрузка...';
+  characterElement.innerText = '';
+  quoteElement.innerText = '';
 
-function Quote(){ 
+  try {
+    // Выполняем запрос
+    const response = await fetch('https://animechan.xyz/api/random');
 
-    fetch ('https://animechan.xyz/api/random')
-    .then(res => res.json())
-    .then(data => {
-        console.log(data)
-        document.querySelector('h3').innerText = data.anime
-        document.querySelector('h4').innerText = data.character
-        document.querySelector('h2').innerText = data.quote
-        
-    
-    })
-    .catch(err => {
-        console.log(`error ${err}`)
-    });
+    // Проверяем, был ли запрос успешным
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    // Преобразуем ответ в JSON
+    const quoteData = await response.json();
+
+    // Обновляем элементы DOM с полученными данными
+    animeElement.innerText = quoteData.anime;
+    characterElement.innerText = quoteData.character;
+    quoteElement.innerText = quoteData.quote;
+  } catch (error) {
+    // Обрабатываем ошибки запроса
+    handleError(error);
+  }
 }
+
+// Функция обработки ошибок
+function handleError(error) {
+  console.error(`Ошибка при загрузке цитаты: ${error}`);
+    animeElement.innerText = "Ошибка загрузки цитаты";
+    characterElement.innerText = "";
+    quoteElement.innerText = "";
+}
+
+// Назначаем обработчик событий кнопке
+quoteButton.addEventListener('click', fetchQuote);

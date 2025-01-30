@@ -4,24 +4,33 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Аниме Цитаты</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <main class="container">
+        <header>
+            <h1>Аниме Цитаты для жизни</h1>
+        </header>
 
-   <h1>Anime Quotes To Live By</h1>
-   <h5>Show Title:</h5>
-   <h3></h3>
-   <h5>Character:</h5>
-   <h4></h4>
-   <h5>Quote:</h5>
-   <h2></h2>
+        <section class="quote-area">
+            <div class="quote-details">
+                 <p class="label">Название аниме:</p>
+                 <h3 class="anime-title" aria-live="polite"></h3>
+            </div>
+            <div class="quote-details">
+                <p class="label">Персонаж:</p>
+                <h4 class="character-name" aria-live="polite"></h4>
+            </div>
+             <div class="quote-details">
+                <p class="label">Цитата:</p>
+                <h2 class="quote-text" aria-live="polite"></h2>
+            </div>
+        </section>
 
-   <button>Click For Quote</button>
-
+        <button class="quote-button">Получить цитату</button>
+    </main>
     
+    <script type="text/javascript" src="main.js"></script>
 </body>
-
-<script type="text/javascript" src="main.js"></script>
-
 </html>
