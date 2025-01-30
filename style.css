@@ -1,0 +1,38 @@
+* {
+    box-sizing: border-box;
+
+}
+
+
+h2 {
+    color:blueviolet;
+     font-family: Arial, Helvetica, sans-serif;
+     
+}
+
+h1 {
+    color:blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+h4 {
+    color:green;
+   font-family: 'Courier New', Courier, monospace;
+   font-size: 20px;
+}
+
+h3 {
+    color:red;
+   font-family: 'Courier New', Courier, monospace;
+   font-size: 20px;
+}
+
+h5 {
+    color:black;
+    font-size: large;
+}
+
+button {
+color:blue;
+}
