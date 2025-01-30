@@ -1,47 +1,53 @@
+const quoteButton = document.querySelector('.quote-button');
+const animeElement = document.querySelector('.anime-title');
+const characterElement = document.querySelector('.character-name');
+const quoteElement = document.querySelector('.quote-text');
+const quoteArea = document.querySelector('.quote-area');
 
-// Получаем элементы DOM один раз для эффективности
-const quoteButton = document.querySelector('button');
-const animeElement = document.querySelector('h3');
-const characterElement = document.querySelector('h4');
-const quoteElement = document.querySelector('h2');
-
-// Функция для загрузки цитаты асинхронно
 async function fetchQuote() {
-  // Обновляем текст перед запросом
-  animeElement.innerText = 'Загрузка...';
-  characterElement.innerText = '';
-  quoteElement.innerText = '';
+    const loadingElement = document.createElement('p');
+    loadingElement.classList.add('loading');
+    loadingElement.innerText = 'Загрузка...';
 
-  try {
-    // Выполняем запрос
-    const response = await fetch('https://animechan.io/api/v1/quotes/random');
+    animeElement.innerText = '';
+    characterElement.innerText = '';
+    quoteElement.innerText = '';
+    quoteArea.appendChild(loadingElement);
+    try {
+        const url = "https://animechan.io/api/v1/quotes/random";
+        const response = await fetch(url);
 
-    // Проверяем, был ли запрос успешным
-    if (!response.ok) {
-      throw new Error(HTTP error! Status: ${response.status});
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        const quoteContent = data.data.content;
+        const characterName = data.data.character.name;
+        const animeName = data.data.anime.name;
+
+        animeElement.innerText = animeName;
+        characterElement.innerText = characterName;
+        quoteElement.innerText = quoteContent;
+        loadingElement.remove();
+
+    } catch (error) {
+        handleError(error);
     }
-
-    // Преобразуем ответ в JSON
-    const quoteData = await response.json();
-
-    // Обновляем элементы DOM с полученными данными
-    animeElement.innerText = quoteData.anime; // Прямой доступ к полю "anime"
-    characterElement.innerText = quoteData.character; // Прямой доступ к полю "character"
-    quoteElement.innerText = quoteData.quote; // Прямой доступ к полю "quote"
-  
-  } catch (error) {
-    // Обрабатываем ошибки запроса
-    handleError(error);
-  }
 }
 
-// Функция обработки ошибок
 function handleError(error) {
-  console.error(Ошибка при загрузке цитаты: ${error});
-  animeElement.innerText = "Ошибка загрузки цитаты";
-  characterElement.innerText = "";
-  quoteElement.innerText = "";
+    console.error(`Ошибка при загрузке цитаты: ${error}`);
+    animeElement.innerText = 'Ошибка загрузки цитаты';
+    characterElement.innerText = '';
+    quoteElement.innerText = '';
+    const loadingElement = quoteArea.querySelector('.loading');
+    if (loadingElement) {
+        loadingElement.remove();
+    }
 }
 
-// Назначаем обработчик событий кнопке
 quoteButton.addEventListener('click', fetchQuote);
+
+fetchQuote();
